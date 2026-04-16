@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房源管理系统</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #3E8E41;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #2d2d2d;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .action-buttons {
+            margin-bottom: 20px;
+        }
+        .action-buttons button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .action-buttons button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .status-active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .status-inactive {
+            background-color: #f44336;
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+        }
+        .pagination button:hover {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<script src="/js/index.js"></script>
+<body>
+
+<header>
+    <h1>房源管理系统</h1>
+</header>
+
+<div class="container">
+    <div class="sidebar">
+        <a href="#">房源信息</a>
+        <a href="#">房源管理</a>
+        <a href="#">我的账户</a>
+    </div>
+
+    <div class="content">
+        <div class="action-buttons">
+            <button onclick="createListing()">创建房源</button>
+
+            <!-- 弹出框 -->
+            <div id="createModal" style="display:none; position:fixed; top:20%; left:30%; background:white; padding:20px; box-shadow:0 0 10px gray;">
+                <form id="createForm">
+                    <label>房源名称：<input name="houseName" required></label><br><br>
+                    <label>地址：<input name="address" required></label><br><br>
+                    <label>面积：<input name="area" type="number" step="0.01" required> 平方米</label><br><br>
+                    <label>户型：<input name="layout" placeholder="例: 2室1厅" required></label><br><br>
+                    <label>价格：<input name="price" type="number" step="0.01" required> 万元</label><br><br>
+                    <label>描述：<textarea name="description" rows="4" cols="50" placeholder="请输入房源描述"></textarea></label><br><br>
+                    <label>状态：
+                        <select name="status" required>
+                            <option value="available">可售</option>
+                            <option value="sold">已售</option>
+                            <option value="rented">待定</option>
+                        </select>
+                    </label><br><br>
+                    <label>是否发布：<input type="checkbox" name="is_published" value="true"> 发布</label><br><br>
+                    <label>房源图片：<input type="file" name="imageUrl" accept="image/*"></label><br><br>
+                    <!-- 可扩展其他字段 -->
+                </form>
+                <button onclick="submitListing()">提交</button>
+                <button onclick="closeModal()">取消</button>
+            </div>
+            <button onclick="toggleListingStatus()">上下架房源</button>
+            <button onclick="deleteListing()">删除房源</button>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>房源名称</th>
+                <th>地址</th>
+                <th>价格</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>房源名称1</td>
+                <td>地址1</td>
+                <td>4000</td>
+                <td><span class="status status-active">已上架</span></td>
+                <td>
+                    <button>编辑</button>
+                    <button>删除</button>
+                </td>
+            </tr>
+            <tr>
+                <td>房源名称2</td>
+                <td>地址2</td>
+                <td>4500</td>
+                <td><span class="status status-inactive">已下架</span></td>
+                <td>
+                    <button>编辑</button>
+                    <button>删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button>上一页</button>
+            <button>下一页</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

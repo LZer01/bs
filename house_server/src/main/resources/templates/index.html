@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>高德找房</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .search-box { margin-bottom: 20px; }
+    .poi-card {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+<h1>高德地图找房</h1>
+
+<div class="search-box">
+  <form method="get" th:action="@{/search}">
+    <input type="text" name="query" placeholder="请输入地址" th:value="${query}">
+    <button type="submit">搜索</button>
+  </form>
+</div>
+
+<div th:if="${error}" class="error">
+  <p th:text="${error}"></p>
+</div>
+
+<div th:if="${pois}">
+  <p>当前位置：<span th:text="${query}"></span>（经度: <span th:text="${lon}"></span>，纬度: <span th:text="${lat}"></span>）</p>
+  <h2>附近房源：</h2>
+  <div th:each="poi : ${pois}" class="poi-card">
+    <p><strong th:text="${poi.get('name')}">房源名称</strong></p>
+    <p th:text="'地址：' + ${poi.get('address')}">地址</p>
+    <p th:if="${poi.get('distance')}" th:text="'距离中心点：' + ${poi.get('distance')} + ' 米'">距离</p>
+  </div>
+</div>
+
+</body>
+</html>

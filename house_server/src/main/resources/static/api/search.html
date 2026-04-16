@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索页面</title>
+</head>
+<body>
+<h1>搜索页面</h1>
+
+<form action="/api/house/search" method="get">
+    <input type="text" name="query" placeholder="请输入查询地址" />
+    <button type="submit">搜索</button>
+</form>
+
+<div>
+    <h2>搜索结果：</h2>
+    <p>您搜索的内容是：<span th:text="${query}"></span></p>
+    <p th:if="${error}" th:text="${error}"></p>
+
+    <div th:if="${pois}">
+        <h3>房源列表：</h3>
+        <ul>
+            <li th:each="poi : ${pois}">
+                <span th:text="${poi.name}"></span> -
+                <span th:text="${poi.address}"></span> -
+                <span th:text="${poi.distance}"></span>米
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${lat != null && lon != null}">
+        <h3>查询的地址对应的经纬度：</h3>
+        <p>纬度: <span th:text="${lat}"></span></p>
+        <p>经度: <span th:text="${lon}"></span></p>
+    </div>
+</div>
+</body>
+</html>
